@@ -8,5 +8,6 @@ import java.util.List;
 public interface MessageService {
 
     MessageResponse sendMessage(String chatId, SendMessageRequest request);
+    MessageResponse sendMessage(String chatId, Long senderId, SendMessageRequest request);
     List<MessageResponse> getMessage(String chatId);
 }

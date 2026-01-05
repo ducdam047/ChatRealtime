@@ -1,5 +1,6 @@
 package com.example.ChatRealtime.dtos.requests;
 
+import com.example.ChatRealtime.enums.MessageContentType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,4 +12,5 @@ import lombok.experimental.FieldDefaults;
 public class SendMessageRequest {
 
     String content;
+    MessageContentType type;
 }

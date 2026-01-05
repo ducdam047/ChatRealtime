@@ -13,6 +13,7 @@ import com.example.ChatRealtime.repositories.MessageRepository;
 import com.example.ChatRealtime.repositories.UserRepository;
 import com.example.ChatRealtime.service.MessageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final UserRepository userRepository;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
 
     @Override
@@ -55,6 +57,39 @@ public class MessageServiceImpl implements MessageService {
         messageRepository.save(message);
 
         return MessageMapper.toResponse(message);
+    }
+
+    @Override
+    public MessageResponse sendMessage(String chatId, Long senderId, SendMessageRequest request) {
+
+        ChatRoom chatRoom = chatRoomRepository.findByChatId(chatId)
+                .orElseThrow(() -> new AppException(ErrorCode.CHAT_ROOM_NOT_FOUND));
+        User sender = userRepository.findById(senderId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        User receiver = chatRoom.getUser1().equals(sender)
+                ? chatRoom.getUser2()
+                : chatRoom.getUser1();
+
+        Message message = Message.builder()
+                .chatRoom(chatRoom)
+                .sender(sender)
+                .receiver(receiver)
+                .content(request.getContent())
+                .timestamp(LocalDateTime.now())
+                .seen(false)
+                .build();
+        messageRepository.save(message);
+
+        MessageResponse response = MessageMapper.toResponse(message);
+
+        simpMessagingTemplate.convertAndSendToUser(
+                receiver.getId().toString(),
+                "queue/message",
+                response
+        );
+
+        return response;
     }
 
     @Override
