@@ -1,6 +1,6 @@
 package com.example.ChatRealtime.dtos.responses;
 
-import com.example.ChatRealtime.enums.MessageContentType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -18,6 +18,9 @@ public class MessageResponse {
     String sender;
     String receiver;
     String content;
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime timestamp;
+    
     boolean seen;
 }

@@ -2,6 +2,7 @@ package com.example.ChatRealtime.configuration;
 
 import com.example.ChatRealtime.service.JwtService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class WebSocketAuthInterceptor implements HandshakeInterceptor {
 
     private final JwtService jwtService;
@@ -26,7 +28,8 @@ public class WebSocketAuthInterceptor implements HandshakeInterceptor {
             return false;
 
         Long userId = jwtService.getUserIdFromToken(token);
-        attributes.put("USER_ID", userId);
+        attributes.put("userId", userId.toString());
+        log.info("WS handshake userId = {}", userId);
 
         return true;
     }
