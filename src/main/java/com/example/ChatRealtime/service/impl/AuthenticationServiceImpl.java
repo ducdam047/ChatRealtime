@@ -33,11 +33,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthenticationResponse authenticate(LoginRequest request) {
         var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        var token = generateToken(user);
 
         if(!(passwordEncoder.matches(request.getPassword(), user.getPassword())))
             throw new AppException(ErrorCode.UNAUTHENTICATED);
-
-        var token = generateToken(user);
 
         return AuthenticationResponse.builder()
                 .token(token)

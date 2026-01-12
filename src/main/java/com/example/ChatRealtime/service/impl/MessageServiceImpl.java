@@ -33,7 +33,6 @@ public class MessageServiceImpl implements MessageService {
     private final UserRepository userRepository;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-
     @Override
     public MessageResponse sendMessage(String chatId, SendMessageRequest request) {
         String senderUsername = SecurityContextHolder
@@ -63,8 +62,8 @@ public class MessageServiceImpl implements MessageService {
         return MessageMapper.toResponse(message);
     }
 
-    @Override
     @Transactional
+    @Override
     public MessageResponse sendMessage(String chatId, String senderId, SendMessageRequest request) {
         Long senderIdLong = Long.valueOf(senderId);
 

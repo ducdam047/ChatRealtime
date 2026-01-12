@@ -1,6 +1,6 @@
 package com.example.ChatRealtime.exception;
 
-import com.example.ChatRealtime.dtos.responses.ApiResponse;
+import com.example.ChatRealtime.common.ApiResponse;
 import com.example.ChatRealtime.enums.ErrorCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

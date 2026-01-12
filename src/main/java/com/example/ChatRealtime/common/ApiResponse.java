@@ -1,4 +1,4 @@
-package com.example.ChatRealtime.dtos.responses;
+package com.example.ChatRealtime.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
