@@ -96,6 +96,11 @@ public class MessageServiceImpl implements MessageService {
                 "/queue/message",
                 response
         );
+        simpMessagingTemplate.convertAndSendToUser(
+                sender.getId().toString(),
+                "queue/message",
+                response
+        );
 
         return response;
     }
