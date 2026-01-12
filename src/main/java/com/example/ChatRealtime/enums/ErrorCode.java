@@ -12,6 +12,7 @@ public enum ErrorCode {
     USER_EXISTED(1001, "User already exists!", HttpStatus.CONFLICT),
     USER_NOT_FOUND(1002, "User not found", HttpStatus.NOT_FOUND),
     CHAT_ROOM_NOT_FOUND(1012, "Chat room not found", HttpStatus.NOT_FOUND),
+    CANNOT_CHAT_WITH_SELF(1013, "You cannot chat with self", HttpStatus.BAD_REQUEST),
     UNAUTHENTICATED(1003, "User not authenticated", HttpStatus.UNAUTHORIZED),
     INTERNAL_ERROR(9999, "Unexpected server error", HttpStatus.INTERNAL_SERVER_ERROR);
     int code;

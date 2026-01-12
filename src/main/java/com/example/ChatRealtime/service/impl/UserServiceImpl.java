@@ -9,8 +9,11 @@ import com.example.ChatRealtime.mapper.UserMapper;
 import com.example.ChatRealtime.repositories.UserRepository;
 import com.example.ChatRealtime.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,5 +35,18 @@ public class UserServiceImpl implements UserService {
 
         User savedUser = userRepository.save(user);
         return UserMapper.toResponse(savedUser);
+    }
+
+    @Override
+    public List<UserResponse> getUsers() {
+        String currentUsername = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        return userRepository.findAll().stream()
+                .filter(user -> !user.getUsername().equals(currentUsername))
+                .map(UserMapper::toResponse)
+                .toList();
     }
 }

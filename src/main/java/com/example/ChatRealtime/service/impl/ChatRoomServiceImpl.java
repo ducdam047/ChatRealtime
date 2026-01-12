@@ -34,6 +34,9 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         User user2 = userRepository.findByUsername(targetUsername)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
+        if (user1.getId().equals(user2.getId()))
+            throw new AppException(ErrorCode.CANNOT_CHAT_WITH_SELF);
+
         User firstUser = user1.getId() < user2.getId() ? user1 : user2;
         User secondUser = firstUser == user1 ? user2 : user1;
 

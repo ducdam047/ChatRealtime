@@ -10,6 +10,7 @@ public final class UserMapper {
     public static UserResponse toResponse(User user) {
         if(user == null) return null;
         return UserResponse.builder()
+                .id(user.getId())
                 .fullName(user.getFullName())
                 .username(user.getUsername())
                 .build();

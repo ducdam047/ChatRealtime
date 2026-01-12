@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/chatroom's")
+@RequestMapping("/api/chatrooms")
 @RequiredArgsConstructor
 public class ChatRoomController {
 
